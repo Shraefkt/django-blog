@@ -27,5 +27,6 @@ urlpatterns = [
     path("logout/",auth_views.LogoutView.as_view(template_name = "users/logout.html"), name = "logout"),
     path("profile/",user_views.profile, name = "profile"),
     path("publicprofileslist/",user_views.PublicProfilesListView.as_view(template_name = "users/public_profile_list.html"),name = "publicprofileslist"),
-    path("publicprofiles/<int:pk>/",user_views.PublicProfileDetailView.as_view(template_name = "users/public_profile_detail.html"),name = "publicprofiles")
+    path("publicprofiles/<int:pk>/",user_views.PublicProfileDetailView.as_view(template_name = "users/public_profile_detail.html"),name = "publicprofiles"),
+    path('publicprofileslist/search', user_views.PublicProfilesSearchResultsPostListView.as_view(template_name = "users/public_profile_list.html"), name="user-search")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

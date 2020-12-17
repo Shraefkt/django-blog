@@ -7,6 +7,7 @@
           <h2 class="account-heading">{{ object.username }}'s Profile</h2>
           <p class="text-secondary">{{ object.email }}</p>
           <p>{{object.profile.bio}}</p>
+          <a class="btn btn-primary btn-lg bg-steel" href="{%url 'user-posts' object.username %}" role="button">My posts</a>
         </div>
       </div>
     </div>

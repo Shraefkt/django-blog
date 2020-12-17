@@ -4,7 +4,7 @@ from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from .models import User
 from django.views.generic import DetailView,ListView
-
+from django.db.models import Q
 # Create your views here.
 
 def register(request):
@@ -48,3 +48,14 @@ class PublicProfilesListView(ListView):
     context_object_name = "users"
     #ordering = ["-date_posted"]
     paginate_by = 5
+class PublicProfilesSearchResultsPostListView(PublicProfilesListView):
+    def get_queryset(self):
+        query = self.request.GET.get('users_search_request')
+        object_list = User.objects.filter(
+            Q(username__icontains=query)
+        )
+        return object_list
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get("usersblogs_search_request")
+        return context
