@@ -17,7 +17,6 @@ BaseHash==3.0.8
 bcrypt==3.1.7
 bkcharts==0.2
 bleach==3.1.5
-bokeh @ file:///C:/ci/bokeh_1593178781838/work
 bom-open==0.4
 boto==2.49.0
 bottle==0.12.18
