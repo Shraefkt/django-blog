@@ -2,7 +2,8 @@ from django.shortcuts import render , redirect
 from django.contrib import messages
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
-
+from .models import User
+from django.views.generic import DetailView,ListView
 
 # Create your views here.
 
@@ -17,7 +18,6 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request,"users/register.html", {"form":form})
-
 @login_required
 def profile(request):
     if request.method == "POST":
@@ -39,3 +39,12 @@ def profile(request):
                "p_form": p_form
                }
     return render(request, "users/profile.html",context)
+
+class PublicProfileDetailView(DetailView):
+    model = User
+class PublicProfilesListView(ListView):
+    model = User
+    template_name = "users/public_profile_list.html"
+    context_object_name = "users"
+    #ordering = ["-date_posted"]
+    paginate_by = 5

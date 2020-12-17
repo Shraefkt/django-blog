@@ -32,11 +32,6 @@
           <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to like this article!</a><br>
         {% endif %}
         <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
-        <div class = "card">
-
-          <p class = "card-title mt-4 ml-4">{{object.author}}'s Bio:</p>
-          <p class = "card-text ml-4 mb-4 font-weight-light">{{object.author.profile.bio}}</p>
-        </div>
 
         <h1>Leave your comment!
         </h1>
