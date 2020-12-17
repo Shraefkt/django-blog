@@ -28,7 +28,6 @@ cachetools==3.1.1
 certifi==2020.11.8
 cffi==1.14.0
 chardet==3.0.4
-chromedriver-binary @ file:///D:/bld/python-chromedriver-binary_1599220714455/work
 click==7.1.2
 click-aliases==1.0.1
 cloudpickle @ file:///tmp/build/80754af9/cloudpickle_1594141588948/work
