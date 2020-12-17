@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+    {% if title %}
+        <title>Veritas - {{ title }}</title>
+    {% else %}
+        <title>Veritas</title>
+    {% endif %}
+</head>
+
+<body>
+    <!-- Navigation.html -->
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/index">Veritas</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{% url 'index'%}">Home</a>
+              <a class="nav-item nav-link" href="{% url 'blog-home'%}">Blog</a>
+              <a class="nav-item nav-link" href="{% url 'blog-about'%}">About</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" href="{%url 'user-posts' user.username%}">My Posts</a>
+                    <a class="nav-item nav-link" href="{%url 'post-create'%}">New Post</a>
+                    <a class="nav-item nav-link" href="{%url 'logout'%}">Logout</a>
+                    <a class="nav-item nav-link" href="{%url 'profile'%}">Profile</a>
+                {% else %}
+                    <a class="nav-item nav-link" href="{%url 'login'%}">Login</a>
+                    <a class="nav-item nav-link" href="{%url 'register'%}">Register</a>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+            {%if messages%}
+                {%for message in messages%}
+                    <div class = "alert alert-{{message.tags}}">
+                        {{message}}
+                    </div>
+                {%endfor%}
+            {%endif%}
+          {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Our Sidebar</h3>
+            <p class='text-muted'>You can put any information here you'd like.
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light" ><a href = "/">Latest Posts</a></li>
+                <li class="list-group-item list-group-item-light">Announcements</li>
+                <li class="list-group-item list-group-item-light">Calendars</li>
+                <li class="list-group-item list-group-item-light">etc</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+     <div class="container-fluid pb-0 mb-0 justify-content-center bg-dark text-light ">
+         <footer>
+             <div class="row my-5 justify-content-center py-5">
+                 <div class="col-11">
+                     <div class="row ">
+                         <div class="col-xl-8 col-md-4 col-sm-4 col-12 my-auto mx-auto a">
+                             <h3 class="text-muted mb-md-0 mb-5 bold-text">Veritas.</h3>
+                         </div>
+                         <div class="col-xl-2 col-md-4 col-sm-4 col-12">
+                             <h5 class="text-muted mb-md-0 mb-5 bold-text"><b>MENU</b></h5>
+                             <ul class="list-unstyled">
+                                 <li><a href = "/index">Home</a></li>
+                                 <li><a href = "/about">About</a></li>
+                                 <li><a href = "/">Blog</a></li>
+                                 <li><a href = "/user/Shraefkt/">Portfolio</a></li>
+                             </ul>
+                         </div>
+                         <div class="col-xl-2 col-md-4 col-sm-4 col-12">
+                             <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5"><b>ADDRESS</b></h6>
+                             <p class="mb-1">SHRAEFKT'S HOUSE</p>
+                             <p>SOMEWHERE ON THE GLOBE</p>
+                         </div>
+                     </div>
+                     <div class="row ">
+                         <div class="col-xl-8 col-md-4 col-sm-4 col-auto my-md-0 mt-5 order-sm-1 order-3 align-self-end">
+                             <p class="social text-muted mb-0 pb-0 bold-text"> <span class="mx-2"><i class="fa fa-facebook" aria-hidden="true"></i></span> <span class="mx-2"><i class="fa fa-linkedin-square" aria-hidden="true"></i></span> <span class="mx-2"><i class="fa fa-twitter" aria-hidden="true"></i></span> <span class="mx-2"><i class="fa fa-instagram" aria-hidden="true"></i></span> </p><small class="rights"><span>&#174;</span> Veritas All Rights Reserved.</small>
+                         </div>
+                         <div class="col-xl-2 col-md-4 col-sm-4 col-auto order-1 align-self-end ">
+                             <h6 class="mt-55 mt-2 text-muted bold-text"><b>SHRAEFKT</b></h6><small> <span><i class="fa fa-envelope" aria-hidden="true"></i></span>SHRAEFKT'S EMAIL</small>
+                         </div>
+
+                     </div>
+                 </div>
+             </div>
+         </footer>
+     </div>
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

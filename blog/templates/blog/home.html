@@ -1,0 +1,56 @@
+{%extends "blog/base.html"%}
+{%block content%}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <form action="{% url 'post-search' %}" method="get" class="form-inline my-2 my-lg-0">
+          <input name = "blogs_search_request" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sort by
+            </a>
+            <div class="dropdown-menu mb-4" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/likes">Sort by popularity</a>
+              <a class="dropdown-item" href="/">Sort by date posted</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">--</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  {%for post in posts%}
+      <article class="media content-section">
+        <img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
+        <div class="media-body rounded">
+          <div class="article-metadata">
+            <a class="mr-2" href="{%url 'user-posts' post.author.username %}">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_posted }}</small>
+          </div>
+          <h2 class="article-title">{{ post.title }}></h2>
+          <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{% url 'post-detail' post.id%}"> ➝ Read More</a>
+        </div>
+      </article>
+  {%endfor%}
+
+  {%if is_paginated%}
+    {% if page_obj.has_previous%}
+      <a class = "btn btn-outline-info mb-4" href="?page=1&blogs_search_request={{ query }}">First</a>
+      <a class = "btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}&blogs_search_request={{ query }}">Previous</a>
+    {%endif%}
+    {%for num in page_obj.paginator.page_range%}
+      {%if page_obj.number == num%}
+        <a class = "btn btn-info mb-4" href="?page={{ num }}&blogs_search_request={{ query }}">{{num}}</a>
+      {%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
+        <a class = "btn btn-outline-info mb-4" href="?page={{ num }}&blogs_search_request={{ query }}">{{num}}</a>
+      {%endif%}
+    {%endfor%}
+    {% if page_obj.has_next%}
+      <a class = "btn btn-outline-info mb-4" href="?page={{page_obj.next_page_number}}&blogs_search_request={{ query }}">Next</a>
+      <a class = "btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}&blogs_search_request={{ query }}">Last</a>
+    {%endif%}
+  {%endif%}
+
+{%endblock content%}
