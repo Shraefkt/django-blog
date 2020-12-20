@@ -1,16 +1,54 @@
 {%extends "blog/base.html"%}
 {%block content%}
+    <div class="card text-center mt-4 mb-4">
+      <div class="card-header">
+        Featured
+      </div>
+      <div class="card-body">
+        <h4 class="card-title">{{main_featured_post.title}} | By: {{main_featured_post.author}}</h4>
+        <p class="card-text">{{main_featured_post.tagline}}</p>
+        <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{% url 'post-detail' main_featured_post.id%}"> ➝ Read More</a>
+      </div>
+      <div class="card-footer text-muted">
+        Posted on : {{main_featured_post.date_posted}}
+      </div>
+    </div>
+    <div class="card-deck my-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+    </div>
+
     <div class="jumbotron">
       <h1 class="display-2">Statistics:</h1>
       <ul class="list-unstyled">
         <li><h3><strong>Number of Users:</strong> {{ num_users }}</h3></li>
         <li><h3><strong>Number of Posts:</strong> {{ num_posts }}</h3></li>
         <li><h3><strong>Number of Comments:</strong> {{ num_comments }}</h3></li>
-      </ul>
+      </ul><br />
       <div class = "mt-4 mb-4 pd-4">
           <h4 class = "text-muted text-center">Since 1/12/2020</h4>
       </div>
     </div>
+
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>

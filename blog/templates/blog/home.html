@@ -30,6 +30,7 @@
             <small class="text-muted">{{ post.date_posted }}</small>
           </div>
           <h2 class="article-title">{{ post.title }}</h2>
+          <p class = "text-muted">{{ post.tagline }}</p>
           <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{% url 'post-detail' post.id%}"> ➝ Read More</a>
         </div>
       </article>

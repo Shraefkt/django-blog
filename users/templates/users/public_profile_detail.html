@@ -4,10 +4,39 @@
       <div class="media">
         <img class="rounded-circle account-img" src="{{ object.profile.image.url }}">
         <div class="media-body">
-          <h2 class="account-heading">{{ object.username }}'s Profile</h2>
-          <p class="text-secondary">{{ object.email }}</p>
-          <p>{{object.profile.bio}}</p>
-          <a class="btn btn-primary btn-lg bg-steel" href="{%url 'user-posts' object.username %}" role="button">My posts</a>
+            <h2 class="account-heading">{{ object.username }}'s Profile</h2>
+          {%if object.email %}
+            <p class="text-secondary">{{ object.email }}</p>
+          {%else%}
+            <p class="text-secondary">No email given</p>
+          {%endif%}
+
+          <strong class="text-secondary">Followers: {{ number_of_followers }}   |    Posts: {{number_of_posts}}    |   Comments: {{number_of_comments}}</strong><br />
+          {% if request.user.is_authenticated %}
+            <form action="{% url 'user-follow' object.id %}" method="POST">
+              {% csrf_token %}
+              {% if followed %}
+                <button type="submit" name="user_id" value="{{object.id}}" class="btn btn-outline-danger btn-sm mt-2 mb-2">Unfollow</button>
+              {% else %}
+                <button type="submit" name="user_id" value="{{object.id}}" class="btn btn-outline-success btn-sm mt-2 mb-2">Follow</button>
+              {% endif %}
+            </form>
+          {% else %}
+            <a class="btn btn-outline-success btn-sm mt-2 mb-2" href="{% url 'login' %}?next={{request.path}}">Follow</a>
+          {% endif %}
+          <div class = "card mt-3 mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Bio:</h5>
+              {%if object.profile.bio %}
+                  {{object.profile.bio}}
+              {%else%}
+                  <p>No bio</p>
+              {%endif%}
+            </div>
+          </div>
+          <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{%url 'user-posts' object.username %}"> ➝ {{object.username}}'s posts</a><br />
+          <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{%url 'user-liked-posts' object.username %}"> ➝ {{object.username}}'s comments</a><br />
+          <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{%url 'user-liked-posts' object.username %}"> ➝ {{object.username}}'s liked posts</a><br />
         </div>
       </div>
     </div>

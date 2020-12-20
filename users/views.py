@@ -1,10 +1,12 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect ,get_object_or_404,HttpResponseRedirect
 from django.contrib import messages
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from .models import User
 from django.views.generic import DetailView,ListView
 from django.db.models import Q
+from django.urls import reverse
+from blog.models import Post,Comment
 # Create your views here.
 
 def register(request):
@@ -42,12 +44,35 @@ def profile(request):
 
 class PublicProfileDetailView(DetailView):
     model = User
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        follower_connected = get_object_or_404(User, id = self.kwargs['pk'])
+        followed = False
+        if follower_connected.profile.followers.filter(id=self.request.user.id).exists():
+            followed = True
+        data['number_of_followers'] = follower_connected.profile.followers.count()
+        data['followed'] = followed
+        data['number_of_posts'] = Post.objects.filter(author=follower_connected).count()
+        data['number_of_comments'] = Comment.objects.filter(author=follower_connected).count()
+        return data
+
+def UserFollow(request, pk):
+    usertofollow = get_object_or_404(User, id=request.POST.get('user_id'))
+    if usertofollow.profile.followers.filter(id=request.user.id).exists():
+        usertofollow.profile.followers.remove(request.user)
+    else:
+        usertofollow.profile.followers.add(request.user)
+    return HttpResponseRedirect(reverse('publicprofiles', args=[str(pk)]))
+
 class PublicProfilesListView(ListView):
     model = User
     template_name = "users/public_profile_list.html"
     context_object_name = "users"
-    #ordering = ["-date_posted"]
+    ordering = ["-date_joined"]
     paginate_by = 5
+class FollowersPublicProfilesListView(PublicProfilesListView):
+    ordering = ["-profile__followers"]
 class PublicProfilesSearchResultsPostListView(PublicProfilesListView):
     def get_queryset(self):
         query = self.request.GET.get('users_search_request')
@@ -57,5 +82,5 @@ class PublicProfilesSearchResultsPostListView(PublicProfilesListView):
         return object_list
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['query'] = self.request.GET.get("usersblogs_search_request")
+        context['query'] = self.request.GET.get("users_search_request")
         return context

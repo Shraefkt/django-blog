@@ -17,14 +17,14 @@ def index(request):
     num_posts = Post.objects.all().count()
     num_comments = Comment.objects.all().count()
 
-
     # The 'all()' is implied by default.
     num_users = User.objects.count()
-
+    main_featured_post = Post.objects.get(pk=18)
     context = {
         'num_posts': num_posts,
         'num_comments': num_comments,
         'num_users': num_users,
+        'main_featured_post' : main_featured_post
     }
 
     return render(request, 'blog/index.html', context=context)
@@ -60,6 +60,17 @@ class UserPostListView(ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get("username"))
         return Post.objects.filter(author=user).order_by("-date_posted")
+
+class UserCommentListView(ListView):
+    model = Comment
+    template_name = "blog/user_comments.html"
+    context_object_name = "comments"
+    paginate_by = 5
+    sort_by = "-date_posted"
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get("username"))
+        return Comment.objects.filter(author=user).order_by("-date_posted")
 
 class PostDetailView(DetailView):
     model = Post
@@ -97,14 +108,14 @@ def PostLike(request, pk):
 
 class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
-    fields = ["title", "content"]
+    fields = ["title","tagline", "content"]
     def form_valid(self,form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
 class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Post
-    fields = ["title", "content"]
+    fields = ["title","tagline", "content"]
     def form_valid(self,form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -124,3 +135,14 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
 def about(request):
     context = {}
     return render(request, "blog/about.html",context)
+
+class UserLikedPostsView(ListView):
+    model = Post
+    template_name = "blog/user_liked_posts.html"
+    context_object_name = "posts"
+    paginate_by = 5
+    sort_by = "-date_posted"
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get("username"))
+        return Post.objects.filter(likes = user).order_by("-date_posted")
