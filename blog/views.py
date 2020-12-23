@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import NewCommentForm
-from django.db.models import Q
+from django.db.models import Q,Count
 # Create your views here.
 
 def index(request):

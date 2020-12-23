@@ -24,18 +24,20 @@
           <form action="{% url 'post-like' object.id %}" method="POST">
             {% csrf_token %}
             {% if post_is_liked %}
-            <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-danger btn-sm mt-2 mb-2">Unlike</button>
+            <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-danger btn-sm mt-2 mb-2">
+              <i class="far fa-heart"></i> Unlike
+            </button>
             {% else %}
-            <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-success btn-sm mt-2 mb-2">Like</button>
+            <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-danger btn-sm mt-2 mb-2">
+              <i class="fas fa-heart"></i> Like
+            </button>
             {% endif %}
           </form>
         {% else %}
           <a class="btn btn-outline-success btn-sm mt-2 mb-2" href="{% url 'login' %}?next={{request.path}}">Like</a><br>
         {% endif %}
-
-
         <h1>
-          Leave a comment!
+          <i class="far fa-comment-alt"></i> Leave a comment!
         </h1>
         <div id="comments_section">
           {% if user.is_authenticated %}
@@ -59,7 +61,7 @@
             {% for comment in comments %}
             <article class="media content-section">
               <img class = "rounded-circle article-img" src = "{{comment.author.profile.image.url}}">
-              <div class="media-body rounded">
+              <div class="media-body rounded" style="word-break: break-word;">
                 <span>
                   <strong class="text-info">{{ comment.author }} </strong>
                   <small class="text-muted">{{ comment.date_posted }}</small>

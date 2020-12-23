@@ -52,6 +52,7 @@ class PublicProfileDetailView(DetailView):
         if follower_connected.profile.followers.filter(id=self.request.user.id).exists():
             followed = True
         data['number_of_followers'] = follower_connected.profile.followers.count()
+        data['number_of_following'] = follower_connected.profile.following.count()
         data['followed'] = followed
         data['number_of_posts'] = Post.objects.filter(author=follower_connected).count()
         data['number_of_comments'] = Comment.objects.filter(author=follower_connected).count()
@@ -61,8 +62,10 @@ def UserFollow(request, pk):
     usertofollow = get_object_or_404(User, id=request.POST.get('user_id'))
     if usertofollow.profile.followers.filter(id=request.user.id).exists():
         usertofollow.profile.followers.remove(request.user)
+        request.user.profile.following.remove(usertofollow)
     else:
         usertofollow.profile.followers.add(request.user)
+        request.user.profile.following.add(usertofollow)
     return HttpResponseRedirect(reverse('publicprofiles', args=[str(pk)]))
 
 class PublicProfilesListView(ListView):
@@ -72,7 +75,7 @@ class PublicProfilesListView(ListView):
     ordering = ["-date_joined"]
     paginate_by = 5
 class FollowersPublicProfilesListView(PublicProfilesListView):
-    ordering = ["-profile__followers"]
+    ordering = ["user_followers"]
 class PublicProfilesSearchResultsPostListView(PublicProfilesListView):
     def get_queryset(self):
         query = self.request.GET.get('users_search_request')
@@ -83,4 +86,33 @@ class PublicProfilesSearchResultsPostListView(PublicProfilesListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['query'] = self.request.GET.get("users_search_request")
+        return context
+class UserFollowingView(ListView):
+    model = User
+    template_name = "users/following.html"
+    context_object_name = "users"
+    paginate_by = 5
+    def get_queryset(self):
+        user = get_object_or_404(User, id=self.kwargs['pk'])
+        following = user.profile.following.all()
+        return following
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = user = get_object_or_404(User, id=self.kwargs['pk'])
+        return context
+
+class UserFollowedByView(ListView):
+    model = User
+    template_name = "users/followed_by.html"
+    context_object_name = "users"
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, id=self.kwargs['pk'])
+        followed_by = user.profile.followers.all()
+        return followed_by
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = user = get_object_or_404(User, id=self.kwargs['pk'])
         return context

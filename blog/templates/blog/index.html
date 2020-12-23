@@ -6,7 +6,7 @@
       </div>
       <div class="card-body">
         <h4 class="card-title">{{main_featured_post.title}} | By: {{main_featured_post.author}}</h4>
-        <p class="card-text">{{main_featured_post.tagline}}</p>
+        <p class="card-text text-break">{{main_featured_post.tagline}}</p>
         <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{% url 'post-detail' main_featured_post.id%}"> ➝ Read More</a>
       </div>
       <div class="card-footer text-muted">

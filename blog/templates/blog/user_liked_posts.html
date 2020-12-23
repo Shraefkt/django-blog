@@ -1,6 +1,6 @@
 {%extends "blog/base.html"%}
 {%block content%}
-  <h1 class = "mb-3">Posts by: {{view.kwargs.username}} ({{page_obj.paginator.count}})</h1>
+  <h1 class = "mb-3">{{view.kwargs.username}}'s liked posts ({{page_obj.paginator.count}})</h1>
   {%for post in posts%}
       <article class="media content-section">
         <img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
@@ -9,8 +9,8 @@
             <a class="mr-2" href="{%url 'publicprofiles' post.author.id %}">{{ post.author }}</a>
             <small class="text-muted">{{ post.date_posted }}</small>
           </div>
-          <h2><a class="article-title text-break" href="{% url 'post-detail' post.id%}">{{ post.title }}</a></h2>
-          <p class="text-muted text-break">{{ post.tagline }}</p>
+          <h2><a class="article-title" href="{% url 'post-detail' post.id%}">{{ post.title }}</a></h2>
+          <p class="text-muted">{{ post.tagline }}</p>
         </div>
       </article>
   {%endfor%}

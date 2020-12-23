@@ -11,7 +11,7 @@
             <p class="text-secondary">No email given</p>
           {%endif%}
 
-          <strong class="text-secondary">Followers: {{ number_of_followers }}   |    Posts: {{number_of_posts}}    |   Comments: {{number_of_comments}}</strong><br />
+          <strong class="text-secondary"><a class = "text-decoration-none" href = "{%url 'user-followed-by' object.id%}">Followers :</a> {{ number_of_followers }}   |    <a class = "text-decoration-none" href = "{%url 'user-following' object.id%}">Following :</a> {{ number_of_following}}   |    Posts: {{number_of_posts}}    |   Comments: {{number_of_comments}}</strong><br />
           {% if request.user.is_authenticated %}
             <form action="{% url 'user-follow' object.id %}" method="POST">
               {% csrf_token %}

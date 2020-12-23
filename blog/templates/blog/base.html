@@ -8,7 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
 
     {% if title %}
@@ -39,14 +39,22 @@
             <div class="navbar-nav">
                 {% if request.user.is_authenticated %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Social
+                        <a class="nav-link dropdown-toggle" href="{%url 'message-inbox' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Messaging
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a class="dropdown-item" href="{%url 'profile'%}">Following</a>
-                          <a class="dropdown-item" href="{%url 'user-posts' user.username%}">Followers</a>
+                          <a class="dropdown-item" href="{%url 'message-inbox' %}">Messaging</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Social
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                          <a class="dropdown-item" href="{%url 'user-following' user.id%}">Following</a>
+                          <a class="dropdown-item" href="{%url 'user-followed-by' user.id%}">Followers</a>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Messaging(beta)</a>
+                          <a class="dropdown-item" href="#">Messaging</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -100,7 +108,7 @@
             <p class='text-muted'>You can put any information here you'd like.
               <ul class="list-group">
                 <li class="list-group-item list-group-item-light" ><a href = "/">Latest Posts</a></li>
-                <li class="list-group-item list-group-item-light">Announcements</li>
+                <li class="list-group-item list-group-item-light"><a href = "{%url 'message-inbox'%}">Latest Messages</a></li>
                 <li class="list-group-item list-group-item-light">Calendars</li>
                 <li class="list-group-item list-group-item-light">etc</li>
               </ul>
