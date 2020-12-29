@@ -1,9 +1,18 @@
 {%extends "blog/base.html"%}
 {%block content%}
+<style>
+  article:hover {
+    background-image: none !important;
+    opacity: 1 !important;
+    -webkit-transform: scale(1.03);
+    -ms-transform: scale(1.03);
+    transform: scale(1.03);
+  }
+</style>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <form action="{% url 'post-search' %}" method="get" class="form-inline my-2 my-lg-0">
           <input name = "blogs_search_request" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Search</button>
       </form>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
@@ -21,17 +30,31 @@
         </ul>
       </div>
     </nav>
+    <p class = "my-3 ml-3">
+        <i class="fas fa-hashtag"></i> Common Tags :
+        {% for mt in common_tags %}
+               <a href="{% url 'tags' mt.slug %}" class="badge badge-success">#{{mt}}</a>
+        {% endfor %}
+    </p>
   {%for post in posts%}
-      <article class="media content-section">
+      <article class="media content-section" style="background-image: url({{post.cover_image.url}});opacity:0.6;">
         <img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
         <div class="media-body rounded">
           <div class="article-metadata">
             <a class="mr-2" href="{% url 'publicprofiles' post.author.id%}">{{ post.author }}</a>
             <small class="text-muted">{{ post.date_posted }}</small>
           </div>
+          <p class = "text-secondary text-muted"><i class="far fa-clock"></i> Reading Time : {{post.reading_time}}  minute{{ post.reading_time|pluralize }}<br />
+            <i class="fas fa-heart"></i> Likes : {{post.number_of_likes}}<br />
+            <i class="fas fa-comment-alt"></i> Comments : {{post.number_of_comments}}<br />
+            <i class="fas fa-hashtag"></i> Tags:
+            {% for tag in post.tags.all %}
+                <a href="{% url 'tags' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+            {% endfor %}
+          </p>
           <h2 class="article-title text-break">{{ post.title }}</h2>
           <p class = "text-muted text-break">{{ post.tagline }}</p>
-          <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{% url 'post-detail' post.id%}"> ➝ Read More</a>
+          <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{% url 'post-detail' post.id%}"><i class="fas fa-book-open fa-md"></i>  Read More</a>
         </div>
       </article>
   {%endfor%}

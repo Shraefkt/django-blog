@@ -2,17 +2,23 @@
 {%block content%}
     <div class="card text-center mt-4 mb-4">
       <div class="card-header">
-        Featured
+        <i class="fas fa-award fa-lg"></i> Featured
       </div>
       <div class="card-body">
         <h4 class="card-title">{{main_featured_post.title}} | By: {{main_featured_post.author}}</h4>
         <p class="card-text text-break">{{main_featured_post.tagline}}</p>
-        <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{% url 'post-detail' main_featured_post.id%}"> ➝ Read More</a>
+        <a class="btn mt-4 btn-outline-dark bg-steel text-white" href="{% url 'post-detail' main_featured_post.id%}"><i class="fas fa-book-open fa-lg"></i>   Read More</a>
       </div>
       <div class="card-footer text-muted">
         Posted on : {{main_featured_post.date_posted}}
       </div>
     </div>
+    <p class = "my-4">
+      <i class="fas fa-hashtag"></i> Common Tags :
+      {% for mt in common_tags %}
+             <a href="{% url 'tags' mt.slug %}" class="badge badge-success">#{{mt}}</a>
+      {% endfor %}
+    </p>
     <div class="card-deck my-4">
       <div class="card">
         <div class="card-body">

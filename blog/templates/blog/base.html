@@ -29,10 +29,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{% url 'index'%}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'blog-home'%}">Blog</a>
-              <a class="nav-item nav-link" href="{% url 'publicprofileslist'%}">Users</a>
-              <a class="nav-item nav-link" href="{% url 'blog-about'%}">About</a>
+              <a class="nav-item nav-link" href="{% url 'index'%}"><i class="fas fa-home"></i> Home</a>
+              <a class="nav-item nav-link" href="{% url 'blog-home'%}"><i class="fas fa-book"></i> Blog</a>
+              <a class="nav-item nav-link" href="{% url 'publicprofileslist'%}"><i class="fas fa-users"></i> Users</a>
+              <a class="nav-item nav-link" href="{% url 'blog-about'%}"><i class="fas fa-info"></i> About</a>
             </div>
 
             <!-- Navbar Right Side -->
@@ -40,7 +40,7 @@
                 {% if request.user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="{%url 'message-inbox' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Messaging
+                          <i class="fas fa-envelope"></i> Messaging
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" href="{%url 'message-inbox' %}">Messaging</a>
@@ -48,18 +48,18 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Social
+                          <i class="fas fa-users"></i> Social
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
                           <a class="dropdown-item" href="{%url 'user-following' user.id%}">Following</a>
                           <a class="dropdown-item" href="{%url 'user-followed-by' user.id%}">Followers</a>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Messaging</a>
+                          <a class="dropdown-item" href="#"> Messaging</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          My Content
+                          <i class="fas fa-pen-square"></i> My Content
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
                           <a class="dropdown-item" href="{%url 'profile'%}">My Profile</a>
@@ -71,7 +71,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Create
+                          <i class="fas fa-plus"></i> Create
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
                           <a class="dropdown-item" href="{%url 'post-create'%}">New Post</a>

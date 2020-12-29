@@ -1,24 +1,42 @@
 {%extends "blog/base.html"%}
 {% load crispy_forms_tags %}
 {%block content%}
+{%if object.is_published or request.user == object.author%}
+<body style="background-image: url({{object.cover_image.url}});"></body>
     <article class="media content-section">
       <img class = "rounded-circle article-img" src = "{{object.author.profile.image.url}}">
-      <div class="media-body">
+      <div class="media-body" style="background-color: white">
         <div class="article-metadata">
           <a class="mr-2" href="{% url 'publicprofiles' object.author.id%}">{{ object.author }}</a>
           <small class="text-muted">{{ object.date_posted }}</small>
           {%if object.author == user%}
           <div>
-            <a class = "btn btn-secondary btn-sm mt-1 mb-1" href = "{%url 'post-update' object.id%}">Update</a>
-            <a class = "btn btn-danger btn-sm mt-1 mb-1" href = "{%url 'post-delete' object.id%}">Delete</a>
+            <a class = "btn btn-secondary btn-sm mt-1 mb-1" href = "{%url 'post-update' object.id%}"><i class="far fa-edit"></i> Update</a>
+            <a class = "btn btn-danger btn-sm mt-1 mb-1" href = "{%url 'post-delete' object.id%}"><i class="far fa-trash-alt"></i> Delete</a>
+            {%if object.is_published%}
+              <p><i class="fas fa-circle"></i> Published</p>
+            {% else %}
+              <p><i class="far fa-circle"></i> Not Published</p>
+            {% endif %}
           </div>
-
           {%endif%}
+          <p class = "mt-2 text-muted"><i class="far fa-clock"></i> Reading Time : {{reading_time}} minute{{ object.reading_time|pluralize }}<br />
+            <i class="fas fa-heart"></i> Likes : {{object.number_of_likes}}<br />
+            <i class="fas fa-comment-alt"></i> Comments: {{ object.number_of_comments }}<br />
+            <i class="fas fa-hashtag"></i> Tags:
+            {% for tag in object.tags.all %}
+                <a href="{% url 'tags' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+            {% endfor %}
+          </p>
         </div>
-
-        <h2 class="article-title" >{{ object.title }}</h2>
-        <p class = "text-muted">{{object.tagline}}</p>
-        <p class="article-content">{{ object.content }}</p>
+        <div class="container">
+          <h2 class="article-title" >{{ object.title }}</h2>
+          <h6 class = "text-muted">{{object.tagline}}</h6>
+          <p class="article-content">{{ object.content }}</p>
+          <p class="text-muted">Notes:<br>
+            {{ object.notes }}
+          </p><br>
+        </div>
         <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong><br />
         {% if user.is_authenticated %}
           <form action="{% url 'post-like' object.id %}" method="POST">
@@ -61,7 +79,7 @@
             {% for comment in comments %}
             <article class="media content-section">
               <img class = "rounded-circle article-img" src = "{{comment.author.profile.image.url}}">
-              <div class="media-body rounded" style="word-break: break-word;">
+              <div class="media-body rounded">
                 <span>
                   <strong class="text-info">{{ comment.author }} </strong>
                   <small class="text-muted">{{ comment.date_posted }}</small>
@@ -79,4 +97,7 @@
         </div>
       </div>
     </article>
+{%else%}
+  <h1>Post does not exist</h1>
+{%endif%}
 {%endblock content%}

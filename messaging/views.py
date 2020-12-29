@@ -12,7 +12,7 @@ class MessageInboxView(ListView,LoginRequiredMixin):
     paginate_by = 10
     def get_queryset(self):
         user = self.request.user
-        messages = Message.objects.filter(reciever=user)
+        messages = Message.objects.filter(reciever=user).order_by("-created_at")
         return messages
 class MessageSentView(ListView,LoginRequiredMixin):
     model = Message
@@ -23,7 +23,7 @@ class MessageSentView(ListView,LoginRequiredMixin):
 
     def get_queryset(self):
         user = self.request.user
-        messages = Message.objects.filter(sender=user)
+        messages = Message.objects.filter(sender=user).order_by("-created_at")
         return messages
 class MessageCreateView(LoginRequiredMixin,CreateView):
     model = Message
