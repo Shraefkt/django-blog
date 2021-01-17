@@ -1,1 +1,1 @@
-The django pages website doesn't work. 
+This is a blog application made with django. It uses bootstrap. It allows users to post posts and to comment and like posts. It also allows users to follow each other and message. Btw, the GitHub pages doesn't work.
